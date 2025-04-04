@@ -67,6 +67,7 @@ public class MainController {
         }
     }
 
+
     @FXML
     private void handleSave() {
         Document selected = documentListView.getSelectionModel().getSelectedItem();
