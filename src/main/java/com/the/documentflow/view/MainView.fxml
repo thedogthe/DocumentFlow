@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.the.documentflow.controller.MainController">
+    <HBox spacing="10">
+        <Button text="Накладная" onAction="#handleAddInvoice"/>
+        <Button text="Платёжка" onAction="#handleAddPayment"/>
+        <Button text="Заявка на оплату" onAction="#handleAddPaymentRequest"/>
+    </HBox>
+
+    <ListView fx:id="documentListView" VBox.vgrow="ALWAYS"/>
+
+    <HBox spacing="10">
+        <Button text="Просмотр" onAction="#handleView"/>
+        <Button text="Сохранить" onAction="#handleSave"/>
+        <Button text="Загрузить" onAction="#handleLoad"/>
+        <Button text="Удалить" onAction="#handleDelete"/>
+    </HBox>
+</VBox>

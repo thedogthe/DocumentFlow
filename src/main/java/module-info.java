@@ -4,5 +4,8 @@ module com.the.documentflow {
 
 
     opens com.the.documentflow to javafx.fxml;
+
+    opens com.the.documentflow.controller to javafx.fxml;
+    opens com.the.documentflow.view to javafx.fxml;
     exports com.the.documentflow;
 }
