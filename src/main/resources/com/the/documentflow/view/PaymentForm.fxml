@@ -4,33 +4,50 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.the.documentflow.controller.PaymentController"
-      spacing="10"
-      style="-fx-padding: 20;">
+      spacing="15"
+      style="-fx-padding: 20; -fx-background-color: #f4f4f4;">
 
-    <Label text="Платёжка" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <Label text="Платёжка" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
 
-    <GridPane hgap="10" vgap="10">
-        <Label text="Номер:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="numberField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <GridPane hgap="10" vgap="12" style="-fx-padding: 10;">
+        <!-- Ряд 0: Номер -->
+        <Label text="Номер:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="numberField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                   promptText="Введите номер"/>
 
-        <Label text="Дата:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <!-- Ряд 1: Дата -->
+        <Label text="Дата:" GridPane.columnIndex="0" GridPane.rowIndex="1"
+               style="-fx-font-weight: bold;"/>
         <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-        <Label text="Пользователь:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField fx:id="userField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <!-- Ряд 2: Пользователь -->
+        <Label text="Пользователь:" GridPane.columnIndex="0" GridPane.rowIndex="2"
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="userField" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                   promptText="ФИО пользователя"/>
 
-        <Label text="Сумма:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <TextField fx:id="amountField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <!-- Ряд 3: Сумма -->
+        <Label text="Сумма:" GridPane.columnIndex="0" GridPane.rowIndex="3"
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="amountField" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                   promptText="0.00"/>
 
-        <Label text="Сотрудник:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <TextField fx:id="employeeField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <!-- Ряд 4: Сотрудник -->
+        <Label text="Сотрудник:" GridPane.columnIndex="0" GridPane.rowIndex="4"
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="employeeField" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                   promptText="ФИО сотрудника"/>
     </GridPane>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Отмена" onAction="#handleCancel"/>
-        <Button text="Сохранить" onAction="#handleOk" defaultButton="true"/>
+    <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+        <Button text="Отмена" onAction="#handleCancel"
+                style="-fx-background-color: #e0e0e0; -fx-padding: 5 15;"/>
+        <Button text="Сохранить" onAction="#handleOk"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 15;"
+                defaultButton="true"/>
     </HBox>
 </VBox>

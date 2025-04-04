@@ -1,7 +1,5 @@
 package com.the.documentflow.controller;
 
-
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -28,7 +26,9 @@ public class PaymentRequestController {
 
     public static void showPaymentRequestDialog(ObservableList<Document> documents) {
         try {
-            FXMLLoader loader = new FXMLLoader(PaymentRequestController.class.getResource("/com/the/documentflow/view/PaymentRequestForm.fxml"));
+            // Используем getResourceAsStream для более надежной загрузки
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PaymentRequestController.class.getResource("/com/the/documentflow/view/PaymentRequestForm.fxml"));
             VBox page = loader.load();
 
             Stage dialogStage = new Stage();
@@ -45,15 +45,95 @@ public class PaymentRequestController {
             dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Ошибка", "Не удалось загрузить форму",
+                    "Проверьте наличие файла PaymentRequestForm.fxml в resources/com/the/documentflow/view/");
         }
     }
 
-    private void setDocuments(ObservableList<Document> documents) {
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
     }
 
-    private void setDialogStage(Stage dialogStage) {
-        
+    public void setDocuments(ObservableList<Document> documents) {
+        this.documents = documents;
     }
 
-    // Остальные методы аналогичны другим контроллерам
+    @FXML
+    private void handleOk() {
+        if (isInputValid()) {
+            PaymentRequest paymentRequest = new PaymentRequest(
+                    numberField.getText(),
+                    datePicker.getValue(),
+                    userField.getText(),
+                    Double.parseDouble(amountField.getText()),
+                    counterpartyField.getText(),
+                    currencyField.getText(),
+                    Double.parseDouble(exchangeRateField.getText()),
+                    Double.parseDouble(commissionField.getText())
+            );
+            documents.add(paymentRequest);
+            dialogStage.close();
+        }
+    }
+
+    @FXML
+    private void handleCancel() {
+        dialogStage.close();
+    }
+
+    private boolean isInputValid() {
+        StringBuilder errorMessage = new StringBuilder();
+
+        // Валидация всех полей
+        if (numberField.getText() == null || numberField.getText().trim().isEmpty()) {
+            errorMessage.append("Не заполнен номер!\n");
+        }
+        if (datePicker.getValue() == null) {
+            errorMessage.append("Не заполнена дата!\n");
+        }
+        if (userField.getText() == null || userField.getText().trim().isEmpty()) {
+            errorMessage.append("Не заполнен пользователь!\n");
+        }
+        if (!isValidDouble(amountField.getText())) {
+            errorMessage.append("Неверная сумма!\n");
+        }
+        if (counterpartyField.getText() == null || counterpartyField.getText().trim().isEmpty()) {
+            errorMessage.append("Не заполнен контрагент!\n");
+        }
+        if (currencyField.getText() == null || currencyField.getText().trim().isEmpty()) {
+            errorMessage.append("Не заполнена валюта!\n");
+        }
+        if (!isValidDouble(exchangeRateField.getText())) {
+            errorMessage.append("Неверный курс валюты!\n");
+        }
+        if (!isValidDouble(commissionField.getText())) {
+            errorMessage.append("Неверная комиссия!\n");
+        }
+
+        if (!errorMessage.isEmpty()) {
+            showAlert("Ошибка ввода", "Исправьте следующие ошибки:", errorMessage.toString());
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidDouble(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return false;
+        }
+        try {
+            Double.parseDouble(value.trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private static void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

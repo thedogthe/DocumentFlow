@@ -6,11 +6,12 @@
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.the.documentflow.controller.InvoiceController"
+      fx:controller="com.the.documentflow.controller.PaymentRequestController"
       spacing="15"
       style="-fx-padding: 20; -fx-background-color: #f4f4f4;">
 
-    <Label text="Накладная" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Label text="Заявка на оплату"
+           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
 
     <GridPane hgap="10" vgap="12" style="-fx-padding: 10;">
         <!-- Ряд 0: Номер -->
@@ -36,29 +37,29 @@
         <TextField fx:id="amountField" GridPane.columnIndex="1" GridPane.rowIndex="3"
                    promptText="0.00"/>
 
-        <!-- Ряд 4: Валюта -->
-        <Label text="Валюта:" GridPane.columnIndex="0" GridPane.rowIndex="4"
+        <!-- Ряд 4: Контрагент -->
+        <Label text="Контрагент:" GridPane.columnIndex="0" GridPane.rowIndex="4"
                style="-fx-font-weight: bold;"/>
-        <TextField fx:id="currencyField" GridPane.columnIndex="1" GridPane.rowIndex="4"
+        <TextField fx:id="counterpartyField" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                   promptText="Название компании"/>
+
+        <!-- Ряд 5: Валюта -->
+        <Label text="Валюта:" GridPane.columnIndex="0" GridPane.rowIndex="5"
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="currencyField" GridPane.columnIndex="1" GridPane.rowIndex="5"
                    promptText="USD/RUB/EUR"/>
 
-        <!-- Ряд 5: Курс валюты -->
-        <Label text="Курс валюты:" GridPane.columnIndex="0" GridPane.rowIndex="5"
+        <!-- Ряд 6: Курс валюты -->
+        <Label text="Курс валюты:" GridPane.columnIndex="0" GridPane.rowIndex="6"
                style="-fx-font-weight: bold;"/>
-        <TextField fx:id="exchangeRateField" GridPane.columnIndex="1" GridPane.rowIndex="5"
+        <TextField fx:id="exchangeRateField" GridPane.columnIndex="1" GridPane.rowIndex="6"
                    promptText="1.0"/>
 
-        <!-- Ряд 6: Товар -->
-        <Label text="Товар:" GridPane.columnIndex="0" GridPane.rowIndex="6"
+        <!-- Ряд 7: Комиссия -->
+        <Label text="Комиссия:" GridPane.columnIndex="0" GridPane.rowIndex="7"
                style="-fx-font-weight: bold;"/>
-        <TextField fx:id="productField" GridPane.columnIndex="1" GridPane.rowIndex="6"
-                   promptText="Наименование товара"/>
-
-        <!-- Ряд 7: Количество -->
-        <Label text="Количество:" GridPane.columnIndex="0" GridPane.rowIndex="7"
-               style="-fx-font-weight: bold;"/>
-        <TextField fx:id="quantityField" GridPane.columnIndex="1" GridPane.rowIndex="7"
-                   promptText="0"/>
+        <TextField fx:id="commissionField" GridPane.columnIndex="1" GridPane.rowIndex="7"
+                   promptText="0.00"/>
     </GridPane>
 
     <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">

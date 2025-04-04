@@ -1,6 +1,5 @@
 package com.the.documentflow.controller;
 
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -41,6 +40,8 @@ public class PaymentController {
             dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Ошибка", "Не удалось загрузить форму",
+                    "Проверьте наличие файла PaymentForm.fxml в resources/com/the/documentflow/view/");
         }
     }
 
@@ -73,7 +74,48 @@ public class PaymentController {
     }
 
     private boolean isInputValid() {
-        // Реализация валидации аналогична InvoiceController
+        StringBuilder errorMessage = new StringBuilder();
+
+        if (numberField.getText() == null || numberField.getText().trim().isEmpty()) {
+            errorMessage.append("Не заполнен номер!\n");
+        }
+        if (datePicker.getValue() == null) {
+            errorMessage.append("Не заполнена дата!\n");
+        }
+        if (userField.getText() == null || userField.getText().trim().isEmpty()) {
+            errorMessage.append("Не заполнен пользователь!\n");
+        }
+        if (!isValidDouble(amountField.getText())) {
+            errorMessage.append("Неверная сумма!\n");
+        }
+        if (employeeField.getText() == null || employeeField.getText().trim().isEmpty()) {
+            errorMessage.append("Не заполнен сотрудник!\n");
+        }
+
+        if (!errorMessage.isEmpty()) {
+            showAlert("Ошибка ввода", "Исправьте следующие ошибки:", errorMessage.toString());
+            return false;
+        }
         return true;
+    }
+
+    private boolean isValidDouble(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return false;
+        }
+        try {
+            Double.parseDouble(value.trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private static void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
