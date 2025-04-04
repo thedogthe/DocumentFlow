@@ -10,7 +10,6 @@ import javafx.stage.Modality;
 import com.the.documentflow.model.*;
 import javafx.collections.ObservableList;
 import java.io.IOException;
-import java.time.LocalDate;
 
 public class InvoiceController {
     @FXML private TextField numberField;
