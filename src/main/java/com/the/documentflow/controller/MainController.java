@@ -1,11 +1,16 @@
 package com.the.documentflow.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import com.the.documentflow.model.*;
+import javafx.stage.Stage;
+
 import java.io.*;
 import java.time.LocalDate;
 
@@ -72,10 +77,23 @@ public class MainController {
     private void handleView() {
         Document selected = documentListView.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            DocumentViewController.showDocumentView(selected);
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/the/documentflow/view/DocumentView.fxml"));
+                VBox page = loader.load();
+
+                // Get the controller and set the document
+                DocumentViewController controller = loader.getController();
+                controller.setDocument(selected);
+
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Просмотр документа");
+                dialogStage.setScene(new Scene(page));
+                dialogStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
     @FXML
     private void handleSave() {

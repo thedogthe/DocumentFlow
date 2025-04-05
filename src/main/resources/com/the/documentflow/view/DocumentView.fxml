@@ -2,12 +2,61 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.the.documentflow.controller.DocumentViewController"
-      spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+      spacing="15" alignment="TOP_CENTER"
+      style="-fx-background-color: #f5f5f5; -fx-padding: 20;">
 
-    <Label text="Детали документа" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-    <TextArea fx:id="documentDetailsArea" editable="false" wrapText="true" prefRowCount="10"/>
+    <!-- Заголовок с иконкой -->
+    <HBox alignment="CENTER" spacing="10">
 
+        <Label text="Детали документа"
+               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2e8b57;"/>
+    </HBox>
+
+    <!-- Основная информация о документе -->
+    <GridPane hgap="10" vgap="10" style="-fx-padding: 10;">
+        <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" minWidth="120"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- Общие поля для всех документов -->
+        <Label text="Тип документа:" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="typeLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Номер:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="numberLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Дата:" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="dateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Пользователь:" style="-fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="userLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Сумма:" style="-fx-font-weight: bold;" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Label fx:id="amountLabel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <!-- Специфичные поля для разных типов документов -->
+        <VBox fx:id="specificFieldsContainer" GridPane.columnSpan="2" GridPane.rowIndex="5"
+              spacing="5" style="-fx-padding: 10 0 0 0;"/>
+    </GridPane>
+
+    <!-- Дополнительная информация -->
+    <TitledPane text="Дополнительная информация" animated="false"
+                style="-fx-font-weight: bold; -fx-color: #2e8b57;">
+        <TextArea fx:id="descriptionArea" editable="false" wrapText="true"
+                  style="-fx-background-color: white; -fx-border-color: #dddddd;"/>
+    </TitledPane>
+
+    <!-- Кнопки действий -->
+    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10 0 0 0;">
+        <Button text="Закрыть" onAction="#handleClose"
+                style="-fx-background-color: #2e8b57; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
 </VBox>
