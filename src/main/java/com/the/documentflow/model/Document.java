@@ -1,6 +1,9 @@
 package com.the.documentflow.model;
 
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.time.LocalDate;
 
 public abstract class Document {
@@ -31,4 +34,18 @@ public abstract class Document {
 
     public abstract String getType();
     public abstract String getDescription();
+
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
 }

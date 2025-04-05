@@ -25,6 +25,16 @@ public class MainController {
     public void initialize() {
         documentListView.setItems(documents);
         documentListView.setCellFactory(lv -> new ListCell<Document>() {
+            private final CheckBox checkBox = new CheckBox();
+
+            {
+                checkBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
+                    if (getItem() != null) {
+                        getItem().setSelected(newVal);
+                    }
+                });
+            }
+
             @Override
             protected void updateItem(Document item, boolean empty) {
                 super.updateItem(item, empty);
@@ -32,8 +42,7 @@ public class MainController {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    CheckBox checkBox = new CheckBox();
-                    checkBox.setSelected(false);
+                    checkBox.setSelected(item.isSelected());
                     setGraphic(checkBox);
                     setText(item.getDescription());
                 }
@@ -151,17 +160,10 @@ public class MainController {
 
     @FXML
     private void handleDelete() {
-        // Удаление выбранных чекбоксами документов
-        ObservableList<Document> toRemove = FXCollections.observableArrayList();
-        for (int i = 0; i < documentListView.getItems().size(); i++) {
-            ListCell<Document> cell = (ListCell<Document>) documentListView.lookup(".list-cell:nth-child(" + (i + 1) + ")");
-            if (cell != null && cell.getGraphic() instanceof CheckBox) {
-                CheckBox checkBox = (CheckBox) cell.getGraphic();
-                if (checkBox.isSelected()) {
-                    toRemove.add(documentListView.getItems().get(i));
-                }
-            }
-        }
+        // Создаем список для удаления
+        ObservableList<Document> toRemove = documents.filtered(Document::isSelected);
+
+        // Удаляем выбранные элементы
         documents.removeAll(toRemove);
     }
 
