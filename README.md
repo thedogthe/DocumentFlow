@@ -75,6 +75,8 @@ Maven - система сборки
 
 ![alt text](docs/image-3.png)
 
+![alt text](docs/imageDoc.png)
+
 ## TODO
 
 Fix warnings, replace document store to Db, add docs
