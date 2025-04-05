@@ -2,20 +2,65 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.the.documentflow.controller.MainController">
-    <HBox spacing="10">
-        <Button text="Накладная" onAction="#handleAddInvoice"/>
-        <Button text="Платёжка" onAction="#handleAddPayment"/>
-        <Button text="Заявка на оплату" onAction="#handleAddPaymentRequest"/>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.the.documentflow.controller.MainController"
+      style="-fx-background-color: #f5fff5;">
+
+    <!-- Заголовок -->
+    <Label text="Документооборот"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #006400;">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+    </Label>
+
+    <!-- Панель кнопок добавления -->
+    <HBox spacing="10" alignment="CENTER"
+          style="-fx-background-color: #e0ffe0; -fx-background-radius: 5;">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Button text="Накладная" onAction="#handleAddInvoice"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button text="Платёжка" onAction="#handleAddPayment"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button text="Заявка на оплату" onAction="#handleAddPaymentRequest"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
     </HBox>
 
-    <ListView fx:id="documentListView" VBox.vgrow="ALWAYS"/>
+    <!-- Список документов -->
+    <Label text="Список документов:"
+           style="-fx-font-weight: bold; -fx-text-fill: #006400;">
+        <padding>
+            <Insets top="5" right="10" bottom="5" left="10"/>
+        </padding>
+    </Label>
 
-    <HBox spacing="10">
-        <Button text="Просмотр" onAction="#handleView"/>
-        <Button text="Сохранить" onAction="#handleSave"/>
-        <Button text="Загрузить" onAction="#handleLoad"/>
-        <Button text="Удалить" onAction="#handleDelete"/>
+    <ListView fx:id="documentListView" VBox.vgrow="ALWAYS"
+              style="-fx-control-inner-background: #f0fff0; -fx-border-color: #4CAF50; -fx-border-radius: 3;"/>
+
+    <!-- Панель действий -->
+    <HBox spacing="10" alignment="CENTER"
+          style="-fx-background-color: #e0ffe0; -fx-background-radius: 5;">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Button text="Просмотр" onAction="#handleView"
+                style="-fx-background-color: #8BC34A; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button text="Сохранить" onAction="#handleSave"
+                style="-fx-background-color: #8BC34A; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button text="Загрузить" onAction="#handleLoad"
+                style="-fx-background-color: #8BC34A; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button text="Удалить" onAction="#handleDelete"
+                style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold;"/>
     </HBox>
+
+    <!-- Отступы для основного VBox -->
+    <padding>
+        <Insets top="5" right="10" bottom="10" left="10"/>
+    </padding>
+    <spacing>10</spacing>
 </VBox>
