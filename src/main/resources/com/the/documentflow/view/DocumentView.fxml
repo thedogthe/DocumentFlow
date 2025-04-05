@@ -10,7 +10,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.the.documentflow.controller.DocumentViewController"
       spacing="15" alignment="TOP_CENTER"
-      style="-fx-background-color: #f5f5f5; -fx-padding: 20;">
+      style="-fx-background-color: #e6f0ff; -fx-padding: 20;">
 
     <!-- Заголовок с иконкой -->
     <HBox alignment="CENTER" spacing="10">
