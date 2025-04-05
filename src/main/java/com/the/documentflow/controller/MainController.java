@@ -79,40 +79,52 @@ public class MainController {
 
     @FXML
     private void handleSave() {
-        Document selected = documentListView.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Сохранить документ");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Текстовые файлы", "*.txt"));
-            File file = fileChooser.showSaveDialog(documentListView.getScene().getWindow());
+        // Получаем выбранные документы
+        ObservableList<Document> selectedDocuments = documents.filtered(Document::isSelected);
 
-            if (file != null) {
-                try (PrintWriter writer = new PrintWriter(file)) {
-                    writer.println(selected.getType());
-                    writer.println(selected.getNumber());
-                    writer.println(selected.getDate());
-                    writer.println(selected.getUser());
-                    writer.println(selected.getAmount());
+        if (selectedDocuments.isEmpty()) {
+            showAlert("Ошибка", "Нет выбранных документов", "Выберите документы для сохранения");
+            return;
+        }
 
-                    if (selected instanceof Invoice) {
-                        Invoice invoice = (Invoice) selected;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Сохранить документы");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Текстовые файлы", "*.txt"));
+        File file = fileChooser.showSaveDialog(documentListView.getScene().getWindow());
+
+        if (file != null) {
+            try (PrintWriter writer = new PrintWriter(file)) {
+                // Первая строка - количество документов
+                writer.println(selectedDocuments.size());
+
+                for (Document doc : selectedDocuments) {
+                    writer.println("=== DOCUMENT START ===");
+                    writer.println(doc.getType());
+                    writer.println(doc.getNumber());
+                    writer.println(doc.getDate());
+                    writer.println(doc.getUser());
+                    writer.println(doc.getAmount());
+
+                    if (doc instanceof Invoice) {
+                        Invoice invoice = (Invoice) doc;
                         writer.println(invoice.getCurrency());
                         writer.println(invoice.getExchangeRate());
                         writer.println(invoice.getProduct());
                         writer.println(invoice.getQuantity());
-                    } else if (selected instanceof Payment) {
-                        Payment payment = (Payment) selected;
+                    } else if (doc instanceof Payment) {
+                        Payment payment = (Payment) doc;
                         writer.println(payment.getEmployee());
-                    } else if (selected instanceof PaymentRequest) {
-                        PaymentRequest pr = (PaymentRequest) selected;
+                    } else if (doc instanceof PaymentRequest) {
+                        PaymentRequest pr = (PaymentRequest) doc;
                         writer.println(pr.getCounterparty());
                         writer.println(pr.getCurrency());
                         writer.println(pr.getExchangeRate());
                         writer.println(pr.getCommission());
                     }
-                } catch (IOException e) {
-                    showAlert("Ошибка", "Не удалось сохранить файл", e.getMessage());
+                    writer.println("=== DOCUMENT END ===");
                 }
+            } catch (IOException e) {
+                showAlert("Ошибка", "Не удалось сохранить файл", e.getMessage());
             }
         }
     }
@@ -120,37 +132,54 @@ public class MainController {
     @FXML
     private void handleLoad() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Загрузить документ");
+        fileChooser.setTitle("Загрузить документы");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Текстовые файлы", "*.txt"));
         File file = fileChooser.showOpenDialog(documentListView.getScene().getWindow());
 
         if (file != null) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String type = reader.readLine();
-                String number = reader.readLine();
-                LocalDate date = LocalDate.parse(reader.readLine());
-                String user = reader.readLine();
-                double amount = Double.parseDouble(reader.readLine());
+                // Читаем количество документов
+                int docCount = Integer.parseInt(reader.readLine());
 
-                switch (type) {
-                    case "Накладная":
-                        String currency = reader.readLine();
-                        double exchangeRate = Double.parseDouble(reader.readLine());
-                        String product = reader.readLine();
-                        double quantity = Double.parseDouble(reader.readLine());
-                        documents.add(new Invoice(number, date, user, amount, currency, exchangeRate, product, quantity));
-                        break;
-                    case "Платёжка":
-                        String employee = reader.readLine();
-                        documents.add(new Payment(number, date, user, amount, employee));
-                        break;
-                    case "Заявка на оплату":
-                        String counterparty = reader.readLine();
-                        String prCurrency = reader.readLine();
-                        double prExchangeRate = Double.parseDouble(reader.readLine());
-                        double commission = Double.parseDouble(reader.readLine());
-                        documents.add(new PaymentRequest(number, date, user, amount, counterparty, prCurrency, prExchangeRate, commission));
-                        break;
+                for (int i = 0; i < docCount; i++) {
+                    // Пропускаем разделитель
+                    String separator = reader.readLine();
+                    if (!"=== DOCUMENT START ===".equals(separator)) {
+                        throw new IOException("Неверный формат файла");
+                    }
+
+                    String type = reader.readLine();
+                    String number = reader.readLine();
+                    LocalDate date = LocalDate.parse(reader.readLine());
+                    String user = reader.readLine();
+                    double amount = Double.parseDouble(reader.readLine());
+
+                    switch (type) {
+                        case "Накладная":
+                            String currency = reader.readLine();
+                            double exchangeRate = Double.parseDouble(reader.readLine());
+                            String product = reader.readLine();
+                            double quantity = Double.parseDouble(reader.readLine());
+                            documents.add(new Invoice(number, date, user, amount, currency, exchangeRate, product, quantity));
+                            break;
+                        case "Платёжка":
+                            String employee = reader.readLine();
+                            documents.add(new Payment(number, date, user, amount, employee));
+                            break;
+                        case "Заявка на оплату":
+                            String counterparty = reader.readLine();
+                            String prCurrency = reader.readLine();
+                            double prExchangeRate = Double.parseDouble(reader.readLine());
+                            double commission = Double.parseDouble(reader.readLine());
+                            documents.add(new PaymentRequest(number, date, user, amount, counterparty, prCurrency, prExchangeRate, commission));
+                            break;
+                    }
+
+                    // Пропускаем конечный разделитель
+                    separator = reader.readLine();
+                    if (!"=== DOCUMENT END ===".equals(separator)) {
+                        throw new IOException("Неверный формат файла");
+                    }
                 }
             } catch (IOException e) {
                 showAlert("Ошибка", "Не удалось загрузить файл", e.getMessage());
