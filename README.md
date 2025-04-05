@@ -1,10 +1,12 @@
 # 📂 Document Flow Management System | Система управления документооборотом
 
-![Java](https://img.shields.io/badge/Java-17+-blue?style=for-the-badge&logo=openjdk)
-![JavaFX](https://img.shields.io/badge/JavaFX-17+-orange?style=for-the-badge&logo=java)
+![Java](https://img.shields.io/badge/Java-21+-blue?style=for-the-badge&logo=openjdk)
+![JavaFX](https://img.shields.io/badge/JavaFX-21+-orange?style=for-the-badge&logo=java)
 ![Maven](https://img.shields.io/badge/Maven-3.8+-red?style=for-the-badge&logo=apache-maven)
 
 ## 🌟 Основные возможности
+
+**Document Flow** — это desktop-приложение для управления финансовыми документами, разработанное на JavaFX. 
 
 ### 📄 Управление документами
 
@@ -64,6 +66,14 @@ JavaFX - графический интерфейс
 Maven - система сборки
 
 ## 🖥 Примеры интерфейса
+
+![alt text](docs/image.png)
+
+![alt text](docs/image-1.png)
+
+![alt text](docs/image-2.png)
+
+![alt text](docs/image-3.png)
 
 ## TODO
 
